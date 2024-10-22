@@ -44,4 +44,6 @@ public class NGOController {
 
         return ResponseEntity.ok(nearbyPosts);
     }
+
+
 }

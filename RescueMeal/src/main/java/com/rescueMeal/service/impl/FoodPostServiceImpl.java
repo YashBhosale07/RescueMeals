@@ -2,6 +2,7 @@ package com.rescueMeal.service.impl;
 import com.rescueMeal.dao.FoodPostDAO;
 import com.rescueMeal.dto.FoodPostDTO;
 import com.rescueMeal.exceptionClasses.FoodPostNotCreatedException;
+import com.rescueMeal.model.Donor;
 import com.rescueMeal.model.FoodPost;
 import com.rescueMeal.service.FoodPostService;
 import org.hibernate.exception.ConstraintViolationException;
@@ -31,7 +32,7 @@ public class FoodPostServiceImpl implements FoodPostService {
             double latitude = foodPostDTO.getLatitude();
             double longitude = foodPostDTO.getLongitude();
             Point location = geometryFactory.createPoint(new Coordinate(longitude, latitude));
-
+            Donor donor=modelMapper.map(foodPostDTO,Donor.class);
             FoodPost foodPost=modelMapper.map(foodPostDTO,FoodPost.class);
             foodPost.setPostTime(LocalDateTime.now());
             foodPost.setLocation(location);

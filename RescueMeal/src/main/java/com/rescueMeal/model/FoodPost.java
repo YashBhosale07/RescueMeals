@@ -46,4 +46,8 @@ public class FoodPost {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ngo_assigned_id", referencedColumnName = "id")
     private NGO ngoAssigned;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "donor_id", referencedColumnName = "id")
+    private Donor donor;
 }

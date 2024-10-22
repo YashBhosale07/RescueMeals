@@ -12,6 +12,7 @@ import java.util.List;
 @Repository
 public interface FoodPostDAO extends JpaRepository<FoodPost,Long> {
 
-    @Query(value = "SELECT * FROM food_post f WHERE ST_Distance_Sphere(f.location, :ngoLocation) < :distance", nativeQuery = true)
+    @Query(value = "SELECT * FROM food_post f WHERE ST_Distance_Sphere(f.location, :ngoLocation) < :distance AND f.status = 'OPEN'", nativeQuery = true)
     List<FoodPost> findNearByFoodPostsForNGO(@Param("ngoLocation") Point ngoLocation, @Param("distance") double distanceInMeters);
+
 }

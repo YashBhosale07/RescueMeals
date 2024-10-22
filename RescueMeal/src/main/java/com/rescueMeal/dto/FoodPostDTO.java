@@ -15,6 +15,7 @@ public class FoodPostDTO {
     private Integer quantity;
     private double latitude;
     private double longitude;
+    private DonorDTO donorDTO;
 
 
 }

@@ -1,7 +1,6 @@
 package com.rescueMeal.controller;
 
 import com.rescueMeal.dto.FoodPostDTO;
-import com.rescueMeal.model.FoodPost;
 import com.rescueMeal.service.FoodPostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
