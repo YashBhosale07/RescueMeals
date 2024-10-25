@@ -1,5 +1,6 @@
 package com.rescueMeal.utils;
 
 public enum Roles {
-    DONOR,NGO
+    ROLE_DONOR,
+    ROLE_NGO
 }

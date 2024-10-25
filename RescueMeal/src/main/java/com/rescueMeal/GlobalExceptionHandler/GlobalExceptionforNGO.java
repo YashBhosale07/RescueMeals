@@ -1,4 +1,4 @@
-package com.rescueMeal.exceptionHandling;
+package com.rescueMeal.GlobalExceptionHandler;
 
 import com.rescueMeal.exceptionClasses.ErrorResponse;
 import com.rescueMeal.exceptionClasses.NgoNotFoundException;

@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 public class FoodPostDTO {
 
     private String restaurantName;
-    private String programName;
+    private String program;
     private String foodDescription;
     private Integer quantity;
     private double latitude;
