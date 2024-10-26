@@ -36,8 +36,10 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(auth->
                         auth
                         .requestMatchers("/auth/**").permitAll()
-                                .requestMatchers("/foodPost/**").hasAnyAuthority("ROLE_DONOR")
-                                .anyRequest()
+                                .requestMatchers("/foodPost/**").hasAuthority("ROLE_DONOR")
+                                .requestMatchers("/ngo/**").hasAnyAuthority("ROLE_NGO")
+
+                        .anyRequest()
                                 .authenticated())
                                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                                 .authenticationProvider(authenticationProvider)

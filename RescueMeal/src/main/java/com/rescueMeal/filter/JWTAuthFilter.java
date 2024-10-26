@@ -1,14 +1,18 @@
 package com.rescueMeal.filter;
 
 import com.rescueMeal.dao.UserDAO;
+import com.rescueMeal.exceptionClasses.UserNotFoundException;
 import com.rescueMeal.model.User;
 import com.rescueMeal.service.TokenService;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -17,7 +21,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.Optional;
+
 
 @Component
 public class JWTAuthFilter extends OncePerRequestFilter {
@@ -28,8 +32,6 @@ public class JWTAuthFilter extends OncePerRequestFilter {
     @Autowired
     private TokenService tokenService;
 
-    @Autowired
-    private UserDetailsService userDetailsService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -39,13 +41,16 @@ public class JWTAuthFilter extends OncePerRequestFilter {
             return;
         }
         String jwt=authorizationHeader.substring(7);
-        String email=tokenService.extractEmail(jwt);
-        if(email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = this.userDetailsService.loadUserByUsername(email);
+        Long id=tokenService.extractId(jwt);
+        if(id != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+
+            User user = userDAO.findById(id)
+                    .orElseThrow(() -> new UserNotFoundException("User is not present"));
+            System.out.println(user.getAuthorities());
             UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                    userDetails,
+                    user,
                     null,
-                    userDetails.getAuthorities()
+                    user.getAuthorities()
             );
             authToken.setDetails(
                     new WebAuthenticationDetailsSource().buildDetails(request)
@@ -58,6 +63,6 @@ public class JWTAuthFilter extends OncePerRequestFilter {
 
     @Override
     protected boolean shouldNotFilter( HttpServletRequest request) throws ServletException {
-        return request.getServletPath().contains("/crackit/v1/auth");
+        return request.getServletPath().contains("/auth/**");
     }
 }

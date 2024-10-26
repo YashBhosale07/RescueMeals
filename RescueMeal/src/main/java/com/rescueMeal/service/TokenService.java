@@ -18,31 +18,29 @@ public class TokenService {
     @Value("${jwt.secretText}")
     private String jwtSecretText;
 
-    private SecretKey secretKey(){
+    private SecretKey secretKey() {
         return Keys.hmacShaKeyFor(jwtSecretText.getBytes(StandardCharsets.UTF_8));
     }
 
-public String tokenGenerate(User user){
+    public String tokenGenerate(User user) {
         return Jwts.builder()
-                .setSubject(user.getEmail())
-                .claim("email",user.getEmail())
-                .claim("Authorities",user.getRole().name())
+                .setSubject(user.getId().toString())
+                .claim("id", user.getId())
+                .claim("Authorities", user.getRole().name())
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis()+1000*60*10))
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 10))
                 .signWith(secretKey())
                 .compact();
     }
 
-    public String extractEmail(String jwt) {
+    public Long extractId(String jwt) {
         Claims claims = Jwts.parserBuilder()
                 .setSigningKey(secretKey())
                 .build()
                 .parseClaimsJws(jwt)
                 .getBody();
-        return claims.get("email", String.class); // Extracts the email claim
+        return claims.get("id", Long.class);
     }
-
-
 
 
 }

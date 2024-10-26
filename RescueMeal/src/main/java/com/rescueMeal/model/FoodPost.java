@@ -20,11 +20,6 @@ public class FoodPost {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "restaurant_name")
-    private String restaurantName;
-
-    @Column(name = "program_name")
-    private String programName;
 
     @Column(name = "food_description", nullable = false)
     private String foodDescription;
@@ -43,11 +38,11 @@ public class FoodPost {
     @Column(name = "status", nullable = false)
     private Status status =Status.OPEN;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ngo_assigned_id", referencedColumnName = "id")
-    private NGO ngoAssigned;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "donor_id", referencedColumnName = "id")
-    private Donor donor;
+    private String ngoName;
+
+    private String ngoemail;
 }

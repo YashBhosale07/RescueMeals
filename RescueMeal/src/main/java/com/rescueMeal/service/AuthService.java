@@ -44,7 +44,7 @@ public class AuthService {
         }
         User userToBeCreated=modelMapper.map(signUpDTO,User.class);
         userToBeCreated.setPassword(passwordEncoder.encode(signUpDTO.getPassword()));
-        userToBeCreated.setRole(Roles.valueOf( "ROLE_" +signUpDTO.getRole().toUpperCase()));
+        userToBeCreated.setRole(Roles.valueOf(signUpDTO.getRole().toUpperCase()));
         User savedUser=userDAO.save(userToBeCreated);
         return modelMapper.map(savedUser,UserDTO.class);
 

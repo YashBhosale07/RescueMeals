@@ -34,6 +34,4 @@ public class NGO {
     @Column(name = "capacity", nullable = false)
     private Integer capacity;
 
-    @OneToMany(mappedBy = "ngoAssigned", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<FoodPost> foodPosts;
 }
